@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mat.dao.WindDao">
+
+	<resultMap type="com.mat.vo.AirSensorDayVo" id="AirSensorDay">
+		<result column="data_date" property="data_date"/>
+		<result column="group_id" property="group_id"/>
+		<result column="sensor_id" property="sensor_id"/>
+		<result column="pm25_grm_avrg" property="pm25_grm_avrg"/>
+		<result column="pm10_grm_avrg" property="pm10_grm_avrg"/>
+	</resultMap>
+
+	<resultMap type="com.mat.vo.WindDayVo" id="WindDay">
+		<result column="data_date" property="data_date"/>
+		<result column="group_id" property="group_id"/>
+		<result column="sensor_id" property="sensor_id"/>
+		<result column="speed_avrg" property="speed_avrg"/>
+		<result column="direction_avrg" property="direction_avrg"/>
+	</resultMap>
+
+	<select id="getJoinAir"  parameterType="com.mat.vo.dateDTO" resultMap="AirSensorDay">
+		SELECT
+			DISTINCT
+				a.data_date,
+				a.group_id,
+				a.sensor_id,
+				a.pm25_grm_avrg,
+				a.pm10_grm_avrg
+		FROM l_air_sensor_day AS a 
+		JOIN l_wind_meter_day AS b
+		ON(a.data_date = b.data_date)
+		WHERE
+			a.group_id = 1 AND b.speed_avrg >= #{speed};
+	</select>
+
+	<select id="getJoinWind"  parameterType="com.mat.vo.dateDTO" resultMap="WindDay">
+		SELECT
+			DISTINCT
+				b.data_date,
+				b.group_id,
+				b.sensor_id,
+				b.speed_avrg,
+				b.direction_avrg
+		FROM l_air_sensor_day AS a 
+		JOIN l_wind_meter_day AS b
+		ON(a.data_date = b.data_date)
+		WHERE
+			a.group_id = 1 AND b.speed_avrg >= #{speed};
+	</select>
+
+	<select id="getAirSensor" resultType="com.mat.vo.AirSensor5MVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			data_hour,
+			data_min,
+			group_id,
+			sensor_id,
+			sensor_lat,
+			sensor_lon,
+			temp_avrg,
+			humid_avrg,
+			pm25_grm_avrg,
+			pm10_grm_avrg
+		FROM ${date}
+		<where>
+			group_id = 1 and data_date = #{sDate}
+		</where>
+		
+		
+<!-- 		<where>
+			<choose>
+				<when test='dateCnt == 1 and eDate != ""'>
+    				data_date BETWEEN  #{sDate} AND #{eDate}
+				</when>
+				<otherwise>
+					data_date = #{sDate}
+				</otherwise>
+			</choose>
+		</where> -->	
+	</select>
+	
+	
+	<select id="getWindSensor" resultType="com.mat.vo.Wind5MVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			data_hour,
+			data_min,
+			group_id,
+			sensor_id,
+			speed_avrg,
+			direction_avrg
+		FROM l_wind_meter_5m
+		<where>
+			group_id = 1 and data_date = #{sDate}
+		</where>
+		
+<!-- 		<where>
+			<choose>
+				<when test='dateCnt == 1 and eDate != ""'>
+    				data_date BETWEEN  #{sDate} AND #{eDate}
+				</when>
+				<otherwise>
+					data_date = #{sDate}
+				</otherwise>
+			</choose>
+		</where> -->
+	</select>
+	
+	<select id="getHourAirSensor" resultType="com.mat.vo.AirSensorHourVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			data_hour,
+			group_id,
+			sensor_id,
+			sensor_lat,
+			sensor_lon,
+			temp_avrg,
+			humid_avrg,
+			pm25_grm_avrg,
+			pm10_grm_avrg
+		FROM l_air_sensor_hour
+		<where>
+			group_id = 1 and data_date = #{sDate}
+		</where>
+<!-- 		<where>
+			<choose>
+				<when test='dateCnt == 1 and eDate != ""'>
+    				data_date BETWEEN  #{sDate} AND #{eDate}
+				</when>
+				<otherwise>
+					data_date = #{sDate}
+				</otherwise>
+			</choose>
+		</where>	 -->
+	</select>
+	
+	<select id="getHourWindSensor" resultType="com.mat.vo.WindHourVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			data_hour,
+			group_id,
+			sensor_id,
+			speed_avrg,
+			direction_avrg
+		FROM l_wind_meter_hour
+		<where>
+			group_id = 1 and data_date = #{sDate}
+		</where>
+<!-- 		<where>
+			<choose>
+				<when test='dateCnt == 1 and eDate != ""'>
+    				data_date BETWEEN  #{sDate} AND #{eDate}
+				</when>
+				<otherwise>
+					data_date = #{sDate}
+				</otherwise>
+			</choose>
+		</where> -->
+	</select>
+	
+	<select id="getDayAirSensor" resultType="com.mat.vo.AirSensorDayVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			group_id,
+			sensor_id,
+			sensor_lat,
+			sensor_lon,
+			temp_avrg,
+			humid_avrg,
+			pm25_grm_avrg,
+			pm10_grm_avrg
+		FROM l_air_sensor_day
+		<where>
+			group_id = 1 and data_date LIKE CONCAT(#{sDate}, '%')
+		</where>	
+	</select>
+	
+	<select id="getDayWindSensor" resultType="com.mat.vo.WindDayVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			group_id,
+			sensor_id,
+			speed_avrg,
+			direction_avrg
+		FROM l_wind_meter_day
+		<where>
+			group_id = 1 and data_date LIKE CONCAT(#{sDate}, '%')
+		</where>
+	</select>
+	
+	<select id="get3DayHourWind" resultType="com.mat.vo.WindHourVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			data_hour,
+			group_id,
+			sensor_id,
+			speed_avrg,
+			direction_avrg
+		FROM l_wind_meter_hour
+		<where>
+			group_id = 1 and data_date BETWEEN #{sDate} AND #{eDate} 
+		</where>		
+	</select>
+	
+	<select id="get3DayHourAir" resultType="com.mat.vo.AirSensorHourVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			data_hour,
+			group_id,
+			sensor_id,
+			sensor_lat,
+			sensor_lon,
+			temp_avrg,
+			humid_avrg,
+			pm25_grm_avrg,
+			pm10_grm_avrg
+		FROM l_air_sensor_hour
+		<where>
+			group_id = 1 AND data_date BETWEEN #{sDate} AND #{eDate}
+		</where>
+	</select>
+	
+	<select id="get2MonDayWind" resultType="com.mat.vo.WindDayVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			group_id,
+			sensor_id,
+			speed_avrg,
+			direction_avrg
+		FROM l_wind_meter_day
+		<where>
+			group_id = 1 AND LEFT(data_date, 7) BETWEEN #{sDate} AND #{eDate}
+		</where>
+	</select>
+	
+	<select id="get2MonDayAir" resultType="com.mat.vo.AirSensorDayVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			data_date,
+			group_id,
+			sensor_id,
+			sensor_lat,
+			sensor_lon,
+			temp_avrg,
+			humid_avrg,
+			pm25_grm_avrg,
+			pm10_grm_avrg
+		FROM l_air_sensor_day
+		<where>
+			group_id = 1 AND LEFT(data_date, 7) BETWEEN #{sDate} AND #{eDate}
+		</where>	
+	</select>
+	
+	<select id="getKoreaAirData" resultType="com.mat.vo.KoreaAirSensorHourVo" parameterType="com.mat.vo.dateDTO">
+		SELECT 
+			DISTINCT
+				data_date,
+				data_hour,
+				group_id,
+				pm10_grm,
+				pm25_grm
+		FROM l_air_airkorea_hour
+		<where>
+			<choose>
+				<when test='date == "3day"'>
+    				data_date BETWEEN  #{sDate} AND #{eDate}
+				</when>
+				<otherwise>
+					group_id = 1 AND data_date = #{sDate}
+				</otherwise>
+			</choose>
+		</where> 
+	</select>
+</mapper>

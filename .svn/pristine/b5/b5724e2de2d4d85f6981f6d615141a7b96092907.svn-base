@@ -1,0 +1,24 @@
+package com.mat.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.mat.vo.AirSensor5M;
+
+@Repository
+public class WindDaoImpl implements WindDao{
+
+	@Autowired
+	SqlSession sqlSession;
+
+	@Override
+	public List<AirSensor5M> getAirSensor(String date) {
+		return sqlSession.selectList("getAirSensor", date);
+	}
+
+	
+
+}

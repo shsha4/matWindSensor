@@ -1,0 +1,23 @@
+package com.mat.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mat.dao.WindDao;
+import com.mat.vo.AirSensor5M;
+
+@Service
+public class WindServiceImpl implements WindService{
+
+	@Autowired
+	private WindDao dao;
+	
+	@Override
+	public List<AirSensor5M> getAirSensor() {
+		String date = "l_air_sensor_5m_202002";
+		return dao.getAirSensor(date);
+	}
+
+}

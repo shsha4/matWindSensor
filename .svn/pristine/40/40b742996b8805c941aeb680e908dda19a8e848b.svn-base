@@ -1,0 +1,11 @@
+package com.mat.dao;
+
+import java.util.List;
+
+import com.mat.vo.AirSensor5M;
+
+public interface WindDao {
+	
+	public List<AirSensor5M> getAirSensor(String date);
+	
+}

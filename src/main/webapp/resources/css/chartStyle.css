@@ -1,0 +1,109 @@
+#header{
+	overflow: auto;
+}
+
+#nav{
+	background-color: #3b9cba; 
+	height: 90px;
+	text-align: center;
+	position: relative;
+}
+
+#searchButton{
+	position:inherit;
+	font-size: 20px; 
+	font-weight: bold; 
+	margin: 1%; 
+	float: left; 
+	height: 50%;
+	z-index: 2;
+}
+
+#leftButton{
+	position:inherit;
+	margin: 1%; 
+	margin-top:1%; 
+	float: left;
+	z-index: 2;
+}
+
+#rightButton{
+	position:inherit;
+	margin: 1%; 
+	margin-top:1%; 
+	float: left;
+	z-index: 2;
+}
+
+#nowDate{
+	font-size: 20px; 
+	font-weight: bold; 
+	color: white; 
+	float: left; 
+	line-height:75px;
+}
+
+#headerTitle{
+	color: white;
+	font-size: 20px;
+	font-weight: bold;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+	margin: 30px auto;
+}
+
+#buttonGroup{
+	float:right;  
+	line-height:75px;
+	position: absolute;
+	right: 10px;
+	z-index: 2;
+}
+
+input[type="radio"] {
+	width: 20px; 
+	height: 15px;
+}
+
+#graphBtn{
+	margin-left: 20px;
+}
+
+#searchList{
+	display: none; 
+	position:absolute; 
+	height:90%; 
+	width: 20%; 
+	background-color: #111; 
+	z-index: 3; 
+	text-align: center;
+}
+
+#searchForm ul{
+	margin-top: 25px; 
+	font-weight: bold; 
+	font-size: 15px;
+}
+
+#chartList{
+	height: 800px; 
+	overflow:auto;
+}
+
+#wind1{
+	top: 0; 
+	position: sticky; 
+	z-index: 2;
+}
+
+#wind2{
+	top: 0; 
+	position: sticky; 
+	z-index: 2;
+}
+
+#tableArea{
+	height: 875px;
+	overflow:auto;
+}

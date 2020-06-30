@@ -1,0 +1,29 @@
+package com.mat.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.mat.service.WindService;
+import com.mat.vo.AirSensor5M;
+
+@Controller
+public class WindController {
+
+	@Autowired
+	private WindService service;
+	
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String windGraphPage(Model model){
+		List<AirSensor5M> list = service.getAirSensor();
+		model.addAttribute("list", list);
+		return "windgraph";
+	}
+	
+	
+}

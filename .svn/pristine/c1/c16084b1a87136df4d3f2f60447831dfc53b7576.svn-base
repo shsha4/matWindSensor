@@ -1,0 +1,11 @@
+package com.mat.service;
+
+import java.util.List;
+
+import com.mat.vo.AirSensor5M;
+
+public interface WindService {
+
+	public List<AirSensor5M> getAirSensor();
+	
+}
